@@ -130,6 +130,9 @@ fieldset{ border:0; }
 }
 .text-link:hover{ border-color:var(--pink-deep); }
 
+/* Keeps hyphenated place names from splitting across lines. */
+.nb{ white-space:nowrap; }
+
 /* --------------------------------------------------------------- buttons */
 .btn{
   --bg:var(--pink); --fg:#fff;
