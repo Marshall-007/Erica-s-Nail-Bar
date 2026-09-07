@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /source-images/
+Disallow: /tools/
+
+Sitemap: https://marshall-007.github.io/Erica-s-Nail-Bar/sitemap.xml

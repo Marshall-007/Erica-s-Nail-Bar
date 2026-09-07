@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+._*
+
+# Editor / tooling
+.claude/
+.vscode/
+*.log

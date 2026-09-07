@@ -1,0 +1,32 @@
+{
+  "name": "Erica's Nail Bar",
+  "short_name": "Erica's",
+  "description": "Gel X sets, gel overlays, gel toes and custom nail art in Kagisanong / Rockville. Beauty, elegance, confidence.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF4F6",
+  "theme_color": "#FDF4F6",
+  "lang": "en-ZA",
+  "categories": ["beauty", "lifestyle", "shopping"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book on WhatsApp",
+      "short_name": "Book",
+      "url": "https://wa.me/27720806146",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "See the work",
+      "short_name": "Gallery",
+      "url": "./#work",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
