@@ -397,8 +397,8 @@ fieldset{ border:0; }
   background:linear-gradient(150deg,var(--rose50),#fff); border-radius:50%;
   border:1px solid var(--line);
 }
-.feature-list b{ display:block; font-size:.94rem; font-weight:600; }
-.feature-list span{ display:block; color:var(--ink-soft); font-size:.87rem; line-height:1.6; }
+.feature-list li > div > b{ display:block; font-size:.94rem; font-weight:600; }
+.feature-list li > div > span{ display:block; color:var(--ink-soft); font-size:.87rem; line-height:1.6; }
 .about-copy p + p{ margin-top:.9rem; }
 .about-copy > p:not(.eyebrow){ color:var(--ink-soft); }
 
@@ -687,8 +687,8 @@ fieldset{ border:0; }
   flex:none; width:24px; height:24px; stroke:var(--pink-deep); fill:none;
   stroke-linecap:round; stroke-linejoin:round;
 }
-.policy-list b{ display:block; font-size:.9rem; font-weight:600; line-height:1.45; }
-.policy-list span{ display:block; color:var(--ink-soft); font-size:.82rem; margin-top:.2rem; line-height:1.6; }
+.policy-list li > div > b{ display:block; font-size:.9rem; font-weight:600; line-height:1.45; }
+.policy-list li > div > span{ display:block; color:var(--ink-soft); font-size:.82rem; margin-top:.2rem; line-height:1.6; }
 .policy-strict{
   margin-top:1.6rem; text-align:center;
   font-family:var(--f-caps); font-size:clamp(.72rem,.66rem + .3vw,.88rem); font-weight:600;
@@ -706,10 +706,10 @@ fieldset{ border:0; }
 }
 .ci svg{ width:21px; height:21px; stroke:var(--pink-deep); fill:none; stroke-linecap:round; stroke-linejoin:round; }
 /* Scoped to the text block so they never hit the .ci icon wrapper. */
-.contact-list li > div b{ display:block; font-size:.95rem; font-weight:600; }
-.contact-list li > div b a{ text-decoration:none; }
-.contact-list li > div b a:hover{ color:var(--pink-deep); }
-.contact-list li > div span{ display:block; color:var(--muted); font-size:.8rem; }
+.contact-list li > div > b{ display:block; font-size:.95rem; font-weight:600; }
+.contact-list li > div > b a{ text-decoration:none; }
+.contact-list li > div > b a:hover{ color:var(--pink-deep); }
+.contact-list li > div > span{ display:block; color:var(--muted); font-size:.8rem; }
 .visit-copy > p:not(.eyebrow){ color:var(--ink-soft); }
 .visit-actions{ margin-top:1.9rem; display:flex; flex-wrap:wrap; gap:.7rem; }
 .socials{ margin-top:1.8rem; display:flex; flex-wrap:wrap; gap:1.2rem; }

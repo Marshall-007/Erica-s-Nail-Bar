@@ -1,6 +1,6 @@
 /* Erica's Nail Bar offline shell.
    Bump CACHE when you change files, so returning visitors get the new site. */
-const CACHE = "enb-v3";
+const CACHE = "enb-v4";
 const SHELL = [
   "./",
   "index.html",
