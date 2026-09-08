@@ -356,12 +356,15 @@
   }
 
   /* ------------------------------------------------- online booking link */
-  if (CAL_LINK) {
-    $$('[data-cal]').forEach(function (el) {
+  $$('[data-cal]').forEach(function (el) {
+    var fallback = el.getAttribute('data-cal-fallback');
+    if (CAL_LINK) {
       el.href = CAL_LINK;
-      el.hidden = false;
-    });
-  }
+      el.hidden = false;                 // reveal the optional buttons
+    } else if (fallback) {
+      el.href = fallback;                // always-on buttons revert to WhatsApp
+    }
+  });
 
   /* ------------------------------------------------------------ sundry */
   $('#year').textContent = new Date().getFullYear();

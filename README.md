@@ -71,9 +71,13 @@ and `072 080 6146` (the visible text).
 set in the `openingHoursSpecification` block of the JSON-LD.
 
 **Online booking.** `CAL_LINK` at the top of `js/main.js` holds the Cal.com
-link (currently <https://cal.com/enb24>). Every "Pick a time online" button
-reads from it. Empty the string and those buttons disappear, leaving WhatsApp
-as the only booking route.
+link (currently <https://cal.com/enb24>). Everything marked `data-cal` reads
+from it: the pink **Book** button in the mobile bar, the "Pick a time online"
+button under the booking steps, and the one in the mobile menu.
+
+Empty the string and the two optional buttons disappear, while the mobile bar
+button falls back to the WhatsApp link in its `data-cal-fallback` attribute,
+so that slot is never left without a destination.
 
 **Gallery.** Each look is one `<article class="reel-card">` in `index.html`.
 The card's `data-file`, `data-name`, `data-tags` and `data-from` attributes also

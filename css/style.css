@@ -804,7 +804,7 @@ fieldset{ border:0; }
   box-shadow:0 12px 26px -10px rgba(176,4,87,.75);
   flex:1.15;
 }
-.ab-main svg{ fill:currentColor; stroke:none; width:23px; height:23px; }
+.ab-main svg{ stroke:currentColor; fill:none; width:23px; height:23px; }
 
 /* -------------------------------------------------------------- lightbox */
 .lightbox{
