@@ -70,9 +70,10 @@ and `072 080 6146` (the visible text).
 **Opening hours.** Shown in the Visit section and under the booking button, and
 set in the `openingHoursSpecification` block of the JSON-LD.
 
-**Online booking.** Open `js/main.js`, put your Cal.com link in `CAL_LINK` at the
-top, and the "Pick a time online" button appears next to the WhatsApp button.
-Leave it empty and the site books through WhatsApp only.
+**Online booking.** `CAL_LINK` at the top of `js/main.js` holds the Cal.com
+link (currently <https://cal.com/enb24>). Every "Pick a time online" button
+reads from it. Empty the string and those buttons disappear, leaving WhatsApp
+as the only booking route.
 
 **Gallery.** Each look is one `<article class="reel-card">` in `index.html`.
 The card's `data-file`, `data-name`, `data-tags` and `data-from` attributes also
@@ -104,8 +105,10 @@ for screenshots and for checking layout.
 
 ## Housekeeping
 
-- After changing any file, bump `CACHE = "enb-v1"` in `sw.js` (to `enb-v2`, etc.)
-  so returning visitors get the new version instead of the cached one.
+- After changing any file, bump `CACHE` in `sw.js` (`enb-v5` -> `enb-v6`, and
+  so on) and the `?v=` number on the CSS and JS links in `index.html`. HTML,
+  CSS and JS are fetched network-first, so a deploy reaches visitors on their
+  next load; images and fonts stay cache-first for speed.
 - Fonts are self-hosted in `assets/fonts/` (Playfair Display, Cinzel, Great Vibes
   and Montserrat, all SIL Open Font License), so the site loads fast and works offline.
 - Photography and the logo belong to Erica's Nail Bar. Originals are kept in

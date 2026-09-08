@@ -12,7 +12,7 @@
      keeps booking through WhatsApp.
        e.g. var CAL_LINK = 'https://cal.com/ericasnailbar/gel-x-set';
      ------------------------------------------------------------------------- */
-  var CAL_LINK = '';
+  var CAL_LINK = 'https://cal.com/enb24';
 
   var WA   = 'https://wa.me/27720806146';
   var $    = function (s, c) { return (c || document).querySelector(s); };

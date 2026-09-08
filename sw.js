@@ -1,6 +1,15 @@
 /* Erica's Nail Bar offline shell.
-   Bump CACHE when you change files, so returning visitors get the new site. */
-const CACHE = "enb-v4";
+
+   Caching rules, chosen so an update always reaches visitors:
+     HTML, CSS, JS  -> network first, falling back to cache when offline.
+     Images, fonts  -> cache first (their filenames change when they change).
+
+   An earlier version cached CSS and JS cache-first, which meant a returning
+   visitor could load new HTML against an old stylesheet. Bump CACHE on every
+   deploy. */
+
+const CACHE = "enb-v5";
+
 const SHELL = [
   "./",
   "index.html",
@@ -17,7 +26,10 @@ const SHELL = [
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE)
+      // allSettled so one missing file can't abort the whole install
+      .then((c) => Promise.allSettled(SHELL.map((u) => c.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -29,35 +41,44 @@ self.addEventListener("activate", (e) => {
   );
 });
 
-self.addEventListener("fetch", (e) => {
-  const req = e.request;
-  if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
+// Network first: always try the server, refresh the cache, fall back offline.
+function networkFirst(req) {
+  return fetch(req)
+    .then((res) => {
+      if (res && res.ok) {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy));
+      }
+      return res;
+    })
+    .catch(() => caches.match(req).then((hit) => hit || caches.match("index.html")));
+}
 
-  // HTML: network first, so content updates are picked up straight away.
-  if (req.mode === "navigate" || (req.headers.get("accept") || "").includes("text/html")) {
-    e.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req).then((r) => r || caches.match("index.html")))
-    );
-    return;
-  }
-
-  // Assets: cache first, fill the cache in the background.
-  e.respondWith(
-    caches.match(req).then((hit) =>
+// Cache first: for assets whose filename changes when the content changes.
+function cacheFirst(req) {
+  return caches.match(req).then(
+    (hit) =>
       hit ||
       fetch(req).then((res) => {
-        if (res.ok && res.type === "basic") {
+        if (res && res.ok && res.type === "basic") {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(req, copy));
         }
         return res;
-      }).catch(() => hit)
-    )
+      })
   );
+}
+
+self.addEventListener("fetch", (e) => {
+  const req = e.request;
+  if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) return;
+
+  const isDoc  = req.mode === "navigate" ||
+                 (req.headers.get("accept") || "").includes("text/html");
+  const isCode = /\.(css|js|webmanifest)$/i.test(url.pathname);
+
+  e.respondWith(isDoc || isCode ? networkFirst(req) : cacheFirst(req));
 });
