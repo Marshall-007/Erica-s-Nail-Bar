@@ -26,21 +26,33 @@
      ------------------------------------------------------------------- */
   var LOOKS = Array.prototype.map.call(
     document.querySelectorAll('#reel .reel-card'),
-    function (card) {
+    function (card, i) {
+      // Index comes from DOM order, so cards can be reordered or inserted
+      // without any hand-kept numbering falling out of step.
+      card.setAttribute('data-i', i);
       return {
         f: card.getAttribute('data-file'),
         n: card.getAttribute('data-name'),
         d: (card.querySelector('.reel-body p') || {}).textContent || '',
         t: (card.getAttribute('data-tags') || '').split('|').filter(Boolean),
-        from: parseInt(card.getAttribute('data-from'), 10) || 0
+        from: parseInt(card.getAttribute('data-from'), 10) || 0,
+        // further angles of the same set, shown in the scrolling band
+        alts: (card.getAttribute('data-alt-files') || '').split('|').filter(Boolean)
       };
     }
   );
 
+  // Every photo we hold, each tagged with the look it belongs to.
+  var PHOTOS = [];
+  LOOKS.forEach(function (l, i) {
+    PHOTOS.push({ i: i, f: l.f, look: l });
+    l.alts.forEach(function (f) { PHOTOS.push({ i: i, f: f, look: l }); });
+  });
+
   /* ------------------------------------------------------------- helpers */
   // <picture> so browsers without WebP still get a JPEG.
-  function img(look) {
-    var base = 'assets/img/' + look.f;
+  function img(file, look) {
+    var base = 'assets/img/' + file;
     return '<picture>' +
              '<source type="image/webp" srcset="' + base + '-640.webp">' +
              '<img src="' + base + '-640.jpg" alt="' + look.n + '. ' + look.d + '" ' +
@@ -137,15 +149,17 @@
 
   /* ---------------------------------------------------------- marquee */
   var rows = $$('.marquee-row');
-  var half = Math.ceil(LOOKS.length / 2);
-  var sets = [LOOKS.slice(0, half), LOOKS.slice(half).concat(LOOKS.slice(0, 2))];
+  // Deal the photos alternately so the two rows never show the same set
+  // side by side, and so extra angles are spread across both.
+  var sets = [[], []];
+  PHOTOS.forEach(function (p, n) { sets[n % 2].push(p); });
 
   rows.forEach(function (row, ri) {
     var track = $('.marquee-track', row);
-    var items = sets[ri] || LOOKS;
-    var html = items.map(function (l) {
-      var idx = LOOKS.indexOf(l);
-      return '<figure data-i="' + idx + '" tabindex="0" role="button" aria-label="View ' + l.n + '">' + img(l, 640) + '</figure>';
+    var items = sets[ri] || PHOTOS;
+    var html = items.map(function (p) {
+      return '<figure data-i="' + p.i + '" data-file="' + p.f + '" tabindex="0" role="button" ' +
+             'aria-label="View ' + p.look.n + '">' + img(p.f, p.look) + '</figure>';
     }).join('');
     track.innerHTML = html + html;              // duplicate for a seamless loop
 
@@ -208,10 +222,12 @@
       lbMeta = $('#lbMeta'), lbBook = $('#lbBook');
   var lbIndex = 0, lbLast = null;
 
-  function openLB(i) {
+  // `file` shows the exact photo that was clicked; without it the set's
+  // main photo is used, which is what the arrows step through.
+  function openLB(i, file) {
     lbIndex = (i + LOOKS.length) % LOOKS.length;
     var l = LOOKS[lbIndex];
-    lbImg.src = 'assets/img/' + l.f + '-1100.jpg';
+    lbImg.src = 'assets/img/' + (file || l.f) + '-1100.jpg';
     lbImg.alt = l.n + '. ' + l.d;
     lbTitle.textContent = l.n;
     lbMeta.textContent = l.t.join(' · ') + ' · from ' + money(l.from) + ' + art & charms';
@@ -235,7 +251,7 @@
   }
   function openFrom(el) {
     var i = parseInt(el.getAttribute('data-i'), 10);
-    if (!isNaN(i)) openLB(i);
+    if (!isNaN(i)) openLB(i, el.getAttribute('data-file'));
   }
   document.addEventListener('click', function (e) {
     var t = e.target.closest('.marquee figure, .reel-card');

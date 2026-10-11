@@ -53,6 +53,18 @@ render "nails-garden-bloom.jpeg"       "960x1200+0+40"    "garden-bloom"      64
 render "nails-lilac-french.jpeg"       "860x1075+50+205"     "lilac-french"      640 1100
 render "nails-gold-star-french.jpeg"   "768x960+256+0"    "gold-star-french"  640 1100
 
+# October 2026 sets. Each look has two extra angles that feed the scrolling
+# band; the first of each trio is the one the gallery card uses.
+render "nails-noir-safari.jpeg"         "560x700+120+195"    "noir-safari"          640 1100
+render "nails-noir-safari-board.jpeg"   "720x900+0+130"    "noir-safari-board"    640 1100
+render "nails-noir-safari-welcome.jpeg" "600x750+260+0"     "noir-safari-welcome"  640 1100
+render "nails-cherry-dot.jpeg"          "800x1000+150+40"  "cherry-dot"           640 1100
+render "nails-cherry-dot-studio.jpeg"   "800x1000+180+20"  "cherry-dot-studio"    640 1100
+render "nails-cherry-dot-board.jpeg"    "640x800+350+0"     "cherry-dot-board"     640 1100
+render "nails-wild-pearl.jpeg"          "720x900+0+330"    "wild-pearl"           640 1100
+render "nails-wild-pearl-polka.jpeg"    "720x900+0+300"    "wild-pearl-polka"     640 1100
+render "nails-wild-pearl-agate.jpeg"    "600x750+0+515"      "wild-pearl-agate"     640 1100
+
 echo "▸ Storytelling"
 # The letter-board shot, used in the welcome section.
 render "nails-welcome-board.jpeg"      "720x900+0+330"    "welcome-board"     640 1100

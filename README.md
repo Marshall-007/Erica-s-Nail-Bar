@@ -82,11 +82,19 @@ so that slot is never left without a destination.
 **Gallery.** Each look is one `<article class="reel-card">` in `index.html`.
 The card's `data-file`, `data-name`, `data-tags` and `data-from` attributes also
 drive the scrolling band and the lightbox, so the HTML is the only place to edit.
+Cards are numbered by their order on the page, so you can add or reorder them
+freely.
+
+`data-alt-files` is optional: a `|` separated list of extra photos of the same
+set. They appear in the scrolling band and open in the lightbox under that
+set's name and price, which keeps several angles of one manicure out of the
+card list where they would just read as repeats.
 
 ### Adding a new set to the gallery
 
 1. Put the original photo in `source-images/` as `nails-<name>.jpeg`.
-2. Add a `render` line for it in `tools/build-images.sh`, choosing a 4:5 crop.
+2. Add a `render` line for it in `tools/build-images.sh`, choosing a 4:5 crop
+   that puts the nails, not the palm, in the middle of the frame.
 3. Run `bash tools/build-images.sh`.
 4. Copy an existing `.reel-card` block in `index.html`, update the file name,
    title, description, tags and price.
