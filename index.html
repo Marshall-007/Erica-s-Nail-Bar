@@ -35,8 +35,8 @@
 <!-- Type & styles -->
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-400-800-normal-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/montserrat-300-700-normal-latin.woff2" crossorigin>
-<link rel="stylesheet" href="css/fonts.css?v=7">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/fonts.css?v=8">
+<link rel="stylesheet" href="css/style.css?v=8">
 <link rel="preload" as="image" href="assets/img/hero-portrait-1080.webp" media="(max-width: 767px)">
 <link rel="preload" as="image" href="assets/img/hero-wide-1600.webp" media="(min-width: 768px)">
 
@@ -206,7 +206,7 @@
     </div>
     <ul class="hero-chips reveal" style="--d:.38s">
       <li>Strictly by appointment</li>
-      <li>50% deposit secures</li>
+      <li><button type="button" data-pay>50% deposit secures</button></li>
       <li>Housecalls available</li>
     </ul>
   </div>
@@ -413,7 +413,7 @@
           <p class="brow"><span>Your set</span><b id="sumBase">Gel X Plain Set</b></p>
           <p class="brow"><span>Extras</span><b id="sumExtras">None yet</b></p>
           <p class="brow big"><span>Estimated total</span><b id="sumTotal">R150</b></p>
-          <p class="brow dep"><span>50% deposit to secure</span><b id="sumDeposit">R75</b></p>
+          <p class="brow dep"><span>50% deposit to secure <button class="pay-link" type="button" data-pay>Banking details</button></span><b id="sumDeposit">R75</b></p>
         </div>
         <a class="btn btn-solid btn-block" id="builderSend" href="#" target="_blank" rel="noopener">Send my design on WhatsApp</a>
         <p class="bnote">An estimate only. The final quote is confirmed during your booking consultation.</p>
@@ -787,7 +787,8 @@
       <li class="step reveal" style="--d:.24s">
         <span class="step-n">4</span>
         <h3>Secure with 50%</h3>
-        <p>A <b>50% deposit</b> confirms the appointment. Book at least <b>2 days</b> ahead.</p>
+        <p>A <b>50% deposit</b> confirms the appointment. Book at least <b>2 days</b> ahead.<br>
+          <button class="pay-link" type="button" data-pay>Banking details</button></p>
       </li>
     </ol>
 
@@ -797,6 +798,22 @@
         <!-- Appears automatically once CAL_LINK is filled in at the top of js/main.js -->
         <a class="btn btn-ghost dark btn-lg" data-cal href="#" target="_blank" rel="noopener" hidden>Pick a time online</a>
       </div>
+
+      <button class="deposit-bar" type="button" data-pay>
+        <span class="db-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="2.6" y="5" width="18.8" height="14" rx="2.6" fill="none" stroke-width="1.6"/>
+            <path d="M2.6 9.6h18.8" stroke-width="1.6"/>
+            <path d="M6 14.6h4" stroke-width="1.6"/>
+          </svg>
+        </span>
+        <span class="db-text">
+          <b>Where to pay your 50% deposit</b>
+          <span>Standard Bank details, tap to view and copy</span>
+        </span>
+        <span class="db-go" aria-hidden="true">›</span>
+      </button>
+
       <p class="booking-note">Mon to Sat, 8am to 6pm · strictly by appointment, no walk-ins.</p>
     </div>
   </div>
@@ -815,7 +832,7 @@
     <ul class="policy-list">
       <li class="reveal">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v15H5z" fill="none" stroke-width="1.5"/><path d="M5 9h14M9 3v4M15 3v4" stroke-width="1.5"/></svg>
-        <div><b>A 50% deposit secures your appointment.</b><span>The balance is settled on the day.</span></div>
+        <div><b>A 50% deposit secures your appointment.</b><span>The balance is settled on the day. <button class="pay-link" type="button" data-pay>Banking details</button></span></div>
       </li>
       <li class="reveal" style="--d:.05s">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a6 6 0 0 1 6 6v4l1.5 2.5h-15L6 14v-4a6 6 0 0 1 6-6Z" fill="none" stroke-width="1.5"/><path d="M10 19a2 2 0 0 0 4 0" stroke-width="1.5"/></svg>
@@ -966,6 +983,74 @@
   </figure>
 </div>
 
-<script src="js/main.js?v=7" defer></script>
+<!-- ======================== DEPOSIT / BANKING ===================== -->
+<div class="paysheet" id="paySheet" role="dialog" aria-modal="true" aria-labelledby="payTitle" hidden>
+  <div class="pay-card" role="document">
+    <button class="pay-close" id="payClose" aria-label="Close">×</button>
+
+    <header class="pay-head">
+      <span class="pay-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="2.6" y="5" width="18.8" height="14" rx="2.6" fill="none" stroke-width="1.6"/>
+          <path d="M2.6 9.6h18.8" stroke-width="1.6"/>
+          <path d="M6 14.6h4" stroke-width="1.6"/>
+        </svg>
+      </span>
+      <p class="script pay-eyebrow">Secure your date</p>
+      <h2 class="pay-title" id="payTitle">Pay your deposit</h2>
+      <p class="pay-lede">A <b>50% deposit</b> confirms your appointment. Pay by EFT to the account
+        below, then send us the proof on WhatsApp.</p>
+    </header>
+
+    <dl class="bank">
+      <div class="bank-row">
+        <dt>Account holder</dt>
+        <dd>Erica Mlambo</dd>
+      </div>
+      <div class="bank-row bank-hero">
+        <dt>Account number</dt>
+        <dd>
+          <span class="bank-num">10 25 955 0262</span>
+          <button class="copy" type="button" data-copy="10259550262" data-label="Account number">Copy</button>
+        </dd>
+      </div>
+      <div class="bank-row">
+        <dt>Bank</dt>
+        <dd>Standard Bank</dd>
+      </div>
+      <div class="bank-row">
+        <dt>Account type</dt>
+        <dd>PureSave</dd>
+      </div>
+      <div class="bank-row">
+        <dt>Branch code</dt>
+        <dd>
+          <span>010145</span>
+          <button class="copy" type="button" data-copy="010145" data-label="Branch code">Copy</button>
+        </dd>
+      </div>
+      <div class="bank-row">
+        <dt>Reference</dt>
+        <dd><span class="bank-ref">Your name and surname</span></dd>
+      </div>
+    </dl>
+
+    <p class="pay-note">
+      <b>Use your name and surname as the reference</b> so we can match your payment to your booking.
+    </p>
+
+    <a class="btn btn-wa btn-block" id="payProof"
+       href="https://wa.me/27720806146?text=Hi%20Erica%2C%20here%20is%20my%20proof%20of%20payment%20for%20the%20deposit.%20My%20name%20and%20surname%3A%20"
+       target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12.04 2A9.9 9.9 0 0 0 2.1 11.9a9.8 9.8 0 0 0 1.36 5L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01a9.9 9.9 0 0 0 9.93-9.9A9.9 9.9 0 0 0 12.04 2Zm5.8 14.1c-.24.68-1.4 1.3-1.94 1.35-.5.05-.98.23-3.3-.7-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.5-1.12-2.85 0-1.36.71-2.02.96-2.3.25-.27.55-.34.73-.34h.52c.17 0 .4-.6.62.48.24.57.8 1.96.87 2.1.07.14.12.3.02.48-.1.18-.15.3-.29.46l-.44.5c-.14.14-.29.3-.12.6.17.28.74 1.22 1.59 1.98 1.09.97 2 1.28 2.29 1.42.28.15.45.13.62-.08.17-.2.71-.83.9-1.11.19-.29.38-.24.63-.14.26.09 1.63.77 1.91.91.28.14.47.21.54.33.07.12.07.68-.17 1.35Z"/></svg>
+      Send proof of payment
+    </a>
+
+    <p class="pay-safety">These are our only banking details. If you are ever sent different ones,
+      please check with us on WhatsApp before you pay.</p>
+  </div>
+</div>
+
+<script src="js/main.js?v=8" defer></script>
 </body>
 </html>

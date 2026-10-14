@@ -8,7 +8,7 @@
    visitor could load new HTML against an old stylesheet. Bump CACHE on every
    deploy. */
 
-const CACHE = "enb-v7";
+const CACHE = "enb-v8";
 
 const SHELL = [
   "./",

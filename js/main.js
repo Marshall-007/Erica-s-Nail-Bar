@@ -382,6 +382,79 @@
     }
   });
 
+  /* -------------------------------------------- deposit banking details */
+  var pay = $('#paySheet'), payLast = null;
+
+  function openPay() {
+    payLast = document.activeElement;
+    pay.hidden = false;
+    requestAnimationFrame(function () { pay.classList.add('open'); });
+    document.body.style.overflow = 'hidden';
+    pay.setAttribute('tabindex', '-1');
+    pay.focus({ preventScroll: true });
+  }
+  function closePay() {
+    pay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function () { pay.hidden = true; }, 320);
+    if (payLast) payLast.focus();
+  }
+
+  $$('[data-pay]').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); openPay(); });
+  });
+
+  // ericasnailbar.../#deposit opens straight on the banking details, so the
+  // details can be sent as a single link in a chat.
+  function payFromHash() { if (location.hash === '#deposit') openPay(); }
+  payFromHash();
+  window.addEventListener('hashchange', payFromHash);
+  $('#payClose').addEventListener('click', closePay);
+  pay.addEventListener('click', function (e) { if (e.target === pay) closePay(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !pay.hidden) closePay();
+  });
+  // Close once they head to WhatsApp, so the page is clear when they come back.
+  $('#payProof').addEventListener('click', function () { setTimeout(closePay, 400); });
+
+  // Copy the account and branch numbers as plain digits, ready to paste
+  // straight into a banking app.
+  $$('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var value = btn.getAttribute('data-copy');
+      var label = btn.getAttribute('data-label') || 'Number';
+
+      function flash() {
+        var old = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('done');
+        btn.setAttribute('aria-label', label + ' copied');
+        setTimeout(function () {
+          btn.textContent = old;
+          btn.classList.remove('done');
+          btn.removeAttribute('aria-label');
+        }, 1800);
+      }
+      function legacyCopy() {
+        // Older mobile browsers with no clipboard API.
+        var ta = document.createElement('textarea');
+        ta.value = value;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:absolute;left:-9999px;top:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); flash(); } catch (err) { /* leave it visible to read */ }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(flash, legacyCopy);
+      } else {
+        legacyCopy();
+      }
+    });
+  });
+
   /* ------------------------------------------------------------ sundry */
   $('#year').textContent = new Date().getFullYear();
   $('#toTop').addEventListener('click', function () {

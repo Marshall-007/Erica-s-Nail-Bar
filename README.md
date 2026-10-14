@@ -79,6 +79,16 @@ Empty the string and the two optional buttons disappear, while the mobile bar
 button falls back to the WhatsApp link in its `data-cal-fallback` attribute,
 so that slot is never left without a destination.
 
+**Deposit banking details.** The sheet lives at the bottom of `index.html`
+(`id="paySheet"`). Change the account there and nowhere else. The `data-copy`
+value on each Copy button is the plain-digit version that gets put on the
+clipboard, so update it alongside the number people read.
+
+Anything with a `data-pay` attribute opens the sheet: the row under the booking
+buttons, the links in step 4, the booking policy and the price builder, and the
+hero chip. `yoursite/#deposit` opens straight onto it, which is handy for
+sending the details as a single link in a chat.
+
 **Gallery.** Each look is one `<article class="reel-card">` in `index.html`.
 The card's `data-file`, `data-name`, `data-tags` and `data-from` attributes also
 drive the scrolling band and the lightbox, so the HTML is the only place to edit.
